@@ -1,0 +1,26 @@
+{
+    "name": "becklyn/domain-checker",
+    "description": "Checks domains and their A records.",
+    "license": "BSD-3-Clause",
+    "type": "cli",
+    "homepage": "https://github.com/Becklyn/Domain-Checker",
+    "authors": [
+        {
+            "name": "Becklyn Studios",
+            "homepage": "https://becklyn.com/"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Becklyn\\DomainChecker\\": "src/"
+        }
+    },
+    "bin": [
+        "bin/check-domains"
+    ],
+    "require": {
+        "symfony/console": "^4.0",
+        "symfony/yaml": "^4.0",
+        "symfony/config": "^4.0"
+    }
+}
