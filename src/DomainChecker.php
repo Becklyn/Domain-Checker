@@ -2,6 +2,8 @@
 
 namespace Becklyn\DomainChecker;
 
+use Khill\Duration\Duration;
+
 
 class DomainChecker
 {
@@ -12,11 +14,18 @@ class DomainChecker
 
 
     /**
+     * @var Duration
+     */
+    private $duration;
+
+
+    /**
      * @param null|string $desiredIp
      */
     public function __construct (?string $desiredIp = null)
     {
         $this->desiredIp = $desiredIp;
+        $this->duration = new Duration();
     }
 
 
@@ -58,7 +67,7 @@ class DomainChecker
             $record["type"],
             $domain,
             $record["ip"],
-            $record["ttl"],
+            $this->duration->humanize($record["ttl"]),
             "",
         ];
 
