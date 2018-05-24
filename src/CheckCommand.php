@@ -121,7 +121,23 @@ USAGE
             \array_map([$domainChecker, "processDomain"], $domains)
         );
 
-        $io->success("All done.");
+        if (null !== $desiredIP)
+        {
+            if ($domainChecker->hasFoundError())
+            {
+                $io->error("Not all domains correctly set.");
+                return 1;
+            }
+            else
+            {
+                $io->success("Everything ok.");
+            }
+        }
+        else
+        {
+            $io->text("All checks finished.");
+        }
+
         return 0;
     }
 }

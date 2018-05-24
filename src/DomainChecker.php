@@ -20,12 +20,19 @@ class DomainChecker
 
 
     /**
+     * @var bool
+     */
+    private $hasError;
+
+
+    /**
      * @param null|string $desiredIp
      */
     public function __construct (?string $desiredIp = null)
     {
         $this->desiredIp = $desiredIp;
         $this->duration = new Duration();
+        $this->hasError = false;
     }
 
 
@@ -41,6 +48,7 @@ class DomainChecker
 
         if (0 === count($dnsRecords))
         {
+            $this->hasError = true;
             return $this->finalizeFormat([
                 "—",
                 $domain,
@@ -52,6 +60,7 @@ class DomainChecker
 
         if (1 < count($dnsRecords))
         {
+            $this->hasError = true;
             return $this->finalizeFormat([
                 "?",
                 $domain,
@@ -74,6 +83,7 @@ class DomainChecker
         if (null !== $this->desiredIp)
         {
             $color = ($this->desiredIp === $record["ip"]) ? "green" : "red";
+            $this->hasError = $this->hasError || ($this->desiredIp !== $record["ip"]);
 
             $result[2] = sprintf(
                 "<fg=%s>%s</>",
@@ -109,5 +119,14 @@ class DomainChecker
         }
 
         return $row;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasFoundError () : bool
+    {
+        return $this->hasError;
     }
 }
