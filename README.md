@@ -19,7 +19,11 @@ Call the CLI command in the directory containing the config.
 
 
 ```bash
-domain-checker config.yaml
+# use with default filename "domains.yaml"
+domain-checker
+
+# or use with other file name
+domain-checker check other-file.yaml
 ```
 
 Config File

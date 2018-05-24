@@ -41,7 +41,7 @@ class CheckCommand extends Command
     {
         $this
             ->setDescription("Checks the DNS for all given domains.")
-            ->addArgument("config", InputArgument::REQUIRED, "The config file where the domains to check are defined. YAML file")
+            ->addArgument("config", InputArgument::OPTIONAL, "The config file where the domains to check are defined. YAML file", "domains.yaml")
             ->addUsage(<<<USAGE
 
 The config file should be a YAML file in the following format:
@@ -73,7 +73,7 @@ USAGE
 
         if (!\is_file($file) || !\is_readable($file))
         {
-            $io->error("Config file not found or not readable.");
+            $io->error("Config file '{$file}' not found or not readable.");
             return 1;
         }
 
