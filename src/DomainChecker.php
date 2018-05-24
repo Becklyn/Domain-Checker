@@ -38,7 +38,7 @@ class DomainChecker
                 "—",
                 "—",
                 "<fg=red>No record found.</>",
-            ]);
+            ], true);
         }
 
         if (1 < count($dnsRecords))
@@ -49,7 +49,7 @@ class DomainChecker
                 "?",
                 "?",
                 "<fg=red>Multiple records found.</>",
-            ]);
+            ], true);
         }
 
         $record = $dnsRecords[0];
@@ -73,7 +73,7 @@ class DomainChecker
             );
         }
 
-        return $this->finalizeFormat($result);
+        return $this->finalizeFormat($result, false, $record);
     }
 
 
@@ -82,17 +82,18 @@ class DomainChecker
      *
      * @param array $row
      * @param bool  $forceError
+     * @param array $record
      * @return array
      */
-    private function finalizeFormat (array $row, bool $forceError = false) : array
+    private function finalizeFormat (array $row, bool $forceError = false, array $record = []) : array
     {
         if (null !== $this->desiredIp)
         {
-            if ($forceError || $row[2] !== $this->desiredIp)
+            if ($forceError || $record["ip"] !== $this->desiredIp)
             {
                 \array_splice($row, 2, 0, ["❌"]);
             }
-            else if ($row[2] === $this->desiredIp)
+            else if ($record["ip"] === $this->desiredIp)
             {
                 \array_splice($row, 2, 0, ["✅"]);
             }
