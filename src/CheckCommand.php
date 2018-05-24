@@ -16,6 +16,24 @@ use Symfony\Component\Yaml\Yaml;
 class CheckCommand extends Command
 {
     public static $defaultName = "check";
+
+
+    /**
+     * @var DomainExpander
+     */
+    private $domainExpander;
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct (?string $name = null)
+    {
+        parent::__construct($name);
+        $this->domainExpander = new DomainExpander();
+    }
+
+
     /**
      * @inheritdoc
      */
@@ -75,7 +93,7 @@ USAGE
             return 1;
         }
 
-        $domains = $this->getFullDomainList($domainConfig["domains"]);
+        $domains = $this->domainExpander->expandDomainList($domainConfig["domains"]);
         $desiredIP = $domainConfig["ip"];
         $domainChecker = new DomainChecker($desiredIP);
 
@@ -105,29 +123,5 @@ USAGE
 
         $io->success("All done.");
         return 0;
-    }
-
-
-
-    /**
-     * @param string[] $domains
-     * @return string[]
-     */
-    private function getFullDomainList (array $domains) : array
-    {
-        $full = [];
-
-        foreach ($domains as $domain)
-        {
-            $full[] = $domain;
-
-            // automatically add the "www." variant as well
-            if (count(explode(".", $domain)) === 2)
-            {
-                $full[] = "www.{$domain}";
-            }
-        }
-
-        return $full;
     }
 }
