@@ -2,15 +2,11 @@
 
 namespace Becklyn\DomainChecker;
 
-
 class DomainExpander
 {
     /**
      * Automatically expands all domains, so that for main domains (without sub domain) both the main domain and www. + main domain
      * are added.
-     *
-     * @param array $list
-     * @return array
      */
     public function expandDomainList (array $domains) : array
     {
@@ -21,7 +17,7 @@ class DomainExpander
             $full[$domain] = true;
 
             // automatically add the "www." variant as well
-            if (count(explode(".", $domain)) === 2)
+            if (2 === \count(\explode(".", $domain)))
             {
                 $full["www.{$domain}"] = true;
             }

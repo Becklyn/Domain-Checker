@@ -12,7 +12,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-
 class CheckCommand extends Command
 {
     public static $defaultName = "check";
@@ -37,12 +36,13 @@ class CheckCommand extends Command
     /**
      * @inheritdoc
      */
-    protected function configure ()
+    protected function configure () : void
     {
         $this
             ->setDescription("Checks the DNS for all given domains.")
             ->addArgument("config", InputArgument::OPTIONAL, "The config file where the domains to check are defined. YAML file", "domains.yaml")
-            ->addUsage(<<<USAGE
+            ->addUsage(
+                <<<'USAGE'
 
 The config file should be a YAML file in the following format:
 
@@ -56,8 +56,7 @@ domains:
 The list of all domains. If the domains are TLDs, the "www." variant is automatically added.
 If an optional IP is given, all domains are checked against this expected ip.
 USAGE
-            )
-        ;
+            );
     }
 
 
