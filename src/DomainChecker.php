@@ -4,11 +4,10 @@ namespace Becklyn\DomainChecker;
 
 use Khill\Duration\Duration;
 
-
 class DomainChecker
 {
     /**
-     * @var null|string
+     * @var string|null
      */
     private $desiredIp;
 
@@ -20,7 +19,6 @@ class DomainChecker
 
 
     /**
-     * @param null|string $desiredIp
      */
     public function __construct (?string $desiredIp = null)
     {
@@ -31,15 +29,12 @@ class DomainChecker
 
     /**
      * Processes the given domain and returns a fully formatted output table row
-     *
-     * @param string $domain
-     * @return array
      */
     public function processDomain (string $domain) : array
     {
-        $dnsRecords = dns_get_record($domain, DNS_A);
+        $dnsRecords = \dns_get_record($domain, \DNS_A);
 
-        if (0 === count($dnsRecords))
+        if (0 === \count($dnsRecords))
         {
             return $this->finalizeFormat([
                 "—",
@@ -50,7 +45,7 @@ class DomainChecker
             ], true);
         }
 
-        if (1 < count($dnsRecords))
+        if (1 < \count($dnsRecords))
         {
             return $this->finalizeFormat([
                 "?",
@@ -75,7 +70,7 @@ class DomainChecker
         {
             $color = ($this->desiredIp === $record["ip"]) ? "green" : "red";
 
-            $result[2] = sprintf(
+            $result[2] = \sprintf(
                 "<fg=%s>%s</>",
                 $color,
                 $result[2]
@@ -88,11 +83,6 @@ class DomainChecker
 
     /**
      * Finalizes the format of the row
-     *
-     * @param array $row
-     * @param bool  $forceError
-     * @param array $record
-     * @return array
      */
     private function finalizeFormat (array $row, bool $forceError = false, array $record = []) : array
     {
@@ -102,7 +92,7 @@ class DomainChecker
             {
                 \array_splice($row, 2, 0, ["❌"]);
             }
-            else if ($record["ip"] === $this->desiredIp)
+            elseif ($record["ip"] === $this->desiredIp)
             {
                 \array_splice($row, 2, 0, ["✅"]);
             }
