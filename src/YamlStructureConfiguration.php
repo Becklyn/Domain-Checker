@@ -2,10 +2,8 @@
 
 namespace Becklyn\DomainChecker;
 
-
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-
 
 class YamlStructureConfiguration implements ConfigurationInterface
 {
@@ -14,10 +12,9 @@ class YamlStructureConfiguration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder ()
     {
-        $treeBuilder = new TreeBuilder();
-        $root = $treeBuilder->root("root");
+        $treeBuilder = new TreeBuilder("root");
 
-        $root
+        $treeBuilder->getRootNode()
             ->children()
                 ->arrayNode("domains")
                     ->scalarPrototype()->end()
